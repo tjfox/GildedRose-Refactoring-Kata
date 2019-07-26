@@ -36,10 +36,27 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(50, items[0].quality)
         self.assertEqual(50, items[1].quality)
 
+    def test_update_should_not_decrease_quality_below_0(self):
+        items = [Item("Generic", 0, 0)]
+        GildedRose(items).update_quality()
+        print(items)
+        self.assertEqual(0, items[0].quality)
+
+    def test_generic_item__should_decreate_quality_by_1_if_not_expired(self):
+        items = [Item("Generic", 4, 1)]
+        GildedRose(items).update_quality()
+        print(items)
+        self.assertEqual(0, items[0].quality)
+
+    def test_generic_item__should_decrease_quality_by_2_if_expired(self):
+        items = [Item("Generic", 0, 2)]
+        GildedRose(items).update_quality()
+        print(items)
+        self.assertEqual(0, items[0].quality)
+
     def test_appreciating_item__should_increase_quality_by_one_if_not_expired(self):
         items = [Item("Aged Brie", 4, 0)]
         GildedRose(items).update_quality()
-        print(items)
         self.assertEqual(1, items[0].quality)
 
     def test_appreciating_item__should_increase_quality_by_two_if_expired(self):
