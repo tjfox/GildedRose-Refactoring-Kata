@@ -29,18 +29,41 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(items[0].quality, 65)
         self.assertEqual(items[0].sell_in, 0)
 
-    def test_update_appreciating_item__should_increase_quality_by_one_if_not_expired(self):
+    def test_appreciating_item__should_increase_quality_by_one_if_not_expired(self):
         items = [Item("Aged Brie", 4, 0)]
         GildedRose(items).update_quality()
         print(items)
         self.assertEqual(1, items[0].quality)
 
-    def test_update_appreciating_item__should_increase_quality_by_two_if_expired(self):
+    def test_appreciating_item__should_increase_quality_by_two_if_expired(self):
         items = [Item("Aged Brie", -1, 0)]
         GildedRose(items).update_quality()
 
         self.assertEqual(items[0].quality, 2)
 
+    def test_time_sensitive_item__should_increase_quality_by_1_if_sell_in_greater_than_10(self):
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 11, 0)]
+        GildedRose(items).update_quality()
+
+        self.assertEqual(items[0].quality, 1)
+
+    def test_time_sensitive_item__should_increase_quality_by_2_if_sell_in_less_than_10(self):
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 10, 0)]
+        GildedRose(items).update_quality()
+
+        self.assertEqual(items[0].quality, 2)
+
+    def test_time_sensitive_item__should_increase_quality_by_3_if_sell_in_less_than_5(self):
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 5, 0)]
+        GildedRose(items).update_quality()
+
+        self.assertEqual(items[0].quality, 3)
+
+    def test_time_sensitive_item__should_set_quality_to_0_if_sell_in_passed(self):
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 0, 4)]
+        GildedRose(items).update_quality()
+
+        self.assertEqual(items[0].quality, 0)
 
 if __name__ == '__main__':
     unittest.main()
