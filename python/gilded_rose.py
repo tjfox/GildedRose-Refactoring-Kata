@@ -53,6 +53,9 @@ class GildedRose(object):
             self._increment_item_quality(item, 1)
 
     def _update_conjured_item(self, item):
+        if item.sell_in < 0:
+            self._decrement_item_quality(item, 4)
+        else:
             self._decrement_item_quality(item, 2)
 
 

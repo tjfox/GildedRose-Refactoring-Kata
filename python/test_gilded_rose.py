@@ -1,27 +1,10 @@
 # -*- coding: utf-8 -*-
-import copy
 import unittest
 
 from gilded_rose import GildedRose, Item
-from legacyMasterData import legacy_output, legacy_test_set, legacy_test_duration
 
 
 class GildedRoseTest(unittest.TestCase):
-    def test_legacy_system(self):
-        self.maxDiff = None
-        items = copy.deepcopy(legacy_test_set)
-        output = ''
-        for day in range(legacy_test_duration):
-            output += "\n-------- day %s --------\n" % day
-            output += "name, sellIn, quality\n"
-
-            for item in items:
-                output += str(item)
-                output += "\n"
-            GildedRose(items).update_quality()
-
-        self.assertEqual(legacy_output, output)
-
     def test_sulfuras_not_updated(self):
         items = [Item("Sulfuras, Hand of Ragnaros", 0, 65)]
         GildedRose(items).update_quality()
@@ -88,6 +71,12 @@ class GildedRoseTest(unittest.TestCase):
 
     def test_conjured_item__should_decrease_quality_by_2_if_not_expired(self):
         items = [Item("Conjured generic item", 1, 2)]
+        GildedRose(items).update_quality()
+
+        self.assertEqual(items[0].quality, 0)
+
+    def test_conjured_item__should_decrease_quality_by_4_if_expired(self):
+        items = [Item("Conjured generic item", 0, 4)]
         GildedRose(items).update_quality()
 
         self.assertEqual(items[0].quality, 0)
