@@ -2,7 +2,7 @@
 import copy
 import unittest
 
-from gilded_rose import GildedRose
+from gilded_rose import GildedRose, Item
 from legacyMasterData import legacy_output, legacy_test_set, legacy_test_duration
 
 
@@ -20,6 +20,13 @@ class GildedRoseTest(unittest.TestCase):
             GildedRose(items).update_quality()
 
         self.assertEqual(legacy_output, output)
+
+    def test_sulfuras_not_updated(self):
+        items = [Item("Sulfuras, Hand of Ragnaros", 0, 65)]
+        GildedRose(items).update_quality()
+
+        self.assertEqual(items[0].quality, 65)
+        self.assertEqual(items[0].sell_in, 0)
 
 
 if __name__ == '__main__':
