@@ -39,19 +39,16 @@ class GildedRoseTest(unittest.TestCase):
     def test_update_should_not_decrease_quality_below_0(self):
         items = [Item("Generic", 0, 0)]
         GildedRose(items).update_quality()
-        print(items)
         self.assertEqual(0, items[0].quality)
 
     def test_generic_item__should_decreate_quality_by_1_if_not_expired(self):
         items = [Item("Generic", 4, 1)]
         GildedRose(items).update_quality()
-        print(items)
         self.assertEqual(0, items[0].quality)
 
     def test_generic_item__should_decrease_quality_by_2_if_expired(self):
         items = [Item("Generic", 0, 2)]
         GildedRose(items).update_quality()
-        print(items)
         self.assertEqual(0, items[0].quality)
 
     def test_appreciating_item__should_increase_quality_by_one_if_not_expired(self):
@@ -71,13 +68,13 @@ class GildedRoseTest(unittest.TestCase):
 
         self.assertEqual(items[0].quality, 1)
 
-    def test_time_sensitive_item__should_increase_quality_by_2_if_sell_in_less_than_10(self):
+    def test_time_sensitive_item__should_increase_quality_by_2_if_sell_in_less_than_11(self):
         items = [Item("Backstage passes to a TAFKAL80ETC concert", 10, 0)]
         GildedRose(items).update_quality()
 
         self.assertEqual(items[0].quality, 2)
 
-    def test_time_sensitive_item__should_increase_quality_by_3_if_sell_in_less_than_5(self):
+    def test_time_sensitive_item__should_increase_quality_by_3_if_sell_in_less_than_6(self):
         items = [Item("Backstage passes to a TAFKAL80ETC concert", 5, 0)]
         GildedRose(items).update_quality()
 
