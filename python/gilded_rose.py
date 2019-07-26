@@ -11,41 +11,44 @@ class GildedRose(object):
             if item.name == "Sulfuras, Hand of Ragnaros":
                 continue
 
-            item.sell_in = item.sell_in - 1
-            if item.name == "Aged Brie":
-                self.update_appreciating_item(item)
-            elif item.name == "Backstage passes to a TAFKAL80ETC concert":
-                self.update_time_sensitive_item(item)
-            else:
-                self.update_item_quality(item)
+            self._update_item(item)
 
-    def increment_item_quality(self, item, amount):
+    def _update_item(self, item):
+        item.sell_in = item.sell_in - 1
+        if item.name == "Aged Brie":
+            self._update_appreciating_item(item)
+        elif item.name == "Backstage passes to a TAFKAL80ETC concert":
+            self._update_time_sensitive_item(item)
+        else:
+            self.update_item_quality(item)
+
+    def _increment_item_quality(self, item, amount):
         item.quality = min(50, item.quality + amount)
 
-    def decrement_item_quality(self, item, amount):
+    def _decrement_item_quality(self, item, amount):
         item.quality = max(0, item.quality - amount)
 
     def update_item_quality(self, item):
         if item.sell_in < 0:
-            self.decrement_item_quality(item, 2)
+            self._decrement_item_quality(item, 2)
         else:
-            self.decrement_item_quality(item, 1)
+            self._decrement_item_quality(item, 1)
 
-    def update_appreciating_item(self, item):
+    def _update_appreciating_item(self, item):
         if item.sell_in < 0:
-            self.increment_item_quality(item, 2)
+            self._increment_item_quality(item, 2)
         else:
-            self.increment_item_quality(item, 1)
+            self._increment_item_quality(item, 1)
 
-    def update_time_sensitive_item(self, item):
+    def _update_time_sensitive_item(self, item):
         if item.sell_in < 0:
             item.quality = 0
         elif item.sell_in < 5:
-            self.increment_item_quality(item, 3)
+            self._increment_item_quality(item, 3)
         elif item.sell_in < 10:
-            self.increment_item_quality(item, 2)
+            self._increment_item_quality(item, 2)
         else:
-            self.increment_item_quality(item, 1)
+            self._increment_item_quality(item, 1)
 
 
 class Item:
