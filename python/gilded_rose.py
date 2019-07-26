@@ -19,6 +19,8 @@ class GildedRose(object):
             self._update_appreciating_item(item)
         elif item.name == "Backstage passes to a TAFKAL80ETC concert":
             self._update_time_sensitive_item(item)
+        elif item.name.split(" ")[0] == "Conjured":
+            self._update_conjured_item(item)
         else:
             self.update_item_quality(item)
 
@@ -49,6 +51,9 @@ class GildedRose(object):
             self._increment_item_quality(item, 2)
         else:
             self._increment_item_quality(item, 1)
+
+    def _update_conjured_item(self, item):
+            self._decrement_item_quality(item, 2)
 
 
 class Item:

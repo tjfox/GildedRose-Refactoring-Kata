@@ -86,5 +86,11 @@ class GildedRoseTest(unittest.TestCase):
 
         self.assertEqual(items[0].quality, 0)
 
+    def test_conjured_item__should_decrease_quality_by_2_if_not_expired(self):
+        items = [Item("Conjured generic item", 1, 2)]
+        GildedRose(items).update_quality()
+
+        self.assertEqual(items[0].quality, 0)
+
 if __name__ == '__main__':
     unittest.main()
