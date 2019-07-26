@@ -29,6 +29,13 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(items[0].quality, 65)
         self.assertEqual(items[0].sell_in, 0)
 
+    def test_update__should_not_increase_quality_over_50(self):
+        items = [Item("Aged Brie", 4, 50), Item("Backstage passes to a TAFKAL80ETC concert", 11, 50)]
+        GildedRose(items).update_quality()
+
+        self.assertEqual(50, items[0].quality)
+        self.assertEqual(50, items[1].quality)
+
     def test_appreciating_item__should_increase_quality_by_one_if_not_expired(self):
         items = [Item("Aged Brie", 4, 0)]
         GildedRose(items).update_quality()

@@ -16,25 +16,29 @@ class GildedRose(object):
                 self.update_appreciating_item(item)
 
             elif item.name == "Backstage passes to a TAFKAL80ETC concert":
+                item.sell_in = item.sell_in - 1
                 self.update_time_sensitive_item(item)
-                self.update_item_sell_in(item)
 
             else:
                 self.update_item_quality(item)
                 self.update_item_sell_in(item)
+
+    def increment_item_quality(self, item, amount):
+        item.quality = min(50, item.quality + amount)
 
     def update_item_quality(self, item):
         if item.quality > 0:
             item.quality = item.quality - 1
 
     def update_time_sensitive_item(self, item):
-            item.quality = min(50, item.quality + 1)
-            if item.sell_in < 11:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-            if item.sell_in < 6:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
+        if item.sell_in < 0:
+            item.quality = 0
+        elif item.sell_in < 5:
+            self.increment_item_quality(item, 3)
+        elif item.sell_in < 10:
+            self.increment_item_quality(item, 2)
+        else:
+            self.increment_item_quality(item, 1)
 
     def update_item_sell_in(self, item):
         item.sell_in = item.sell_in - 1
@@ -51,9 +55,9 @@ class GildedRose(object):
 
     def update_appreciating_item(self, item):
         if item.sell_in < 0:
-            item.quality += 2
+            self.increment_item_quality(item, 2)
         else:
-            item.quality += 1
+            self.increment_item_quality(item, 1)
 
 
 class Item:
